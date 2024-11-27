@@ -17,10 +17,6 @@ library(dplyr)
 
 # Data Sources:
 
-# UK population per postcode 2021-
-#https://www.beta.ons.gov.uk/aboutus/transparencyandgovernance/freedomofinformationfoi/postcodelevelpopulationdatafromcensus2021
-population_postcode <- read.csv("DataSources/uk-population-postcode-21.csv")
-
 # GP Surgery data-
 # https://digital.nhs.uk/services/organisation-data-service/export-data-files/csv-downloads/gp-and-gp-practice-related-data
 # Load GP Surgery data
@@ -68,6 +64,10 @@ summary(merged_data)
 # Save the final dataset to a CSV file without row names
 write.csv(merged_data, "gp_surgery_data.csv", row.names = TRUE)
 
+# UK population per postcode 2021-
+#https://www.beta.ons.gov.uk/aboutus/transparencyandgovernance/freedomofinformationfoi/postcodelevelpopulationdatafromcensus2021
+population_postcode <- read.csv("DataSources/uk-population-postcode-21.csv")
+
 # Load GP Surgery data
 gp_surgery <- read.csv("gp_surgery_data.csv")  # Update with your file path
 
@@ -76,9 +76,6 @@ gp_surgery_count <- gp_surgery %>%
   mutate(Postcode_District = sub(" .*", "", POSTCODE)) %>%  # Extract first part of POSTCODE
   group_by(Postcode_District) %>%                          # Group by postcode district
   summarise(Count = n(), .groups = "drop")                 # Count surgeries per district
-
-# Load Population Data
-population_postcode <- read.csv("population_postcode_data.csv")  # Update with your file path
 
 # Merge with population data
 final_data <- gp_surgery_count %>%
