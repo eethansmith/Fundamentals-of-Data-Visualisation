@@ -1,4 +1,4 @@
-"Postcode_District","Population","Total_Registered_Patients","Total_Registered_Practitioners","Count_GP_Surgeries"
+"Postcode_District","Population","Registered_Patients","Registered_Practitioners","GP_Surgeries"
 "AL1",39038,45138,69,3
 "AL10",38933,35540,50,3
 "AL2",24211,26374,37,3

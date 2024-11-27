@@ -82,39 +82,19 @@ gp_surgery <- gp_surgery %>%
 gp_surgery_stats <- gp_surgery %>%
   group_by(Postcode_District) %>%
   summarise(
-    Count_GP_Surgeries = n(), # Count GP surgeries
-    Total_Registered_Patients = sum(NUMBER_OF_PATIENTS, na.rm = TRUE),  # Sum patients
-    Total_Registered_Practitioners = sum(NUMBER_OF_PRACTITIONERS, na.rm = TRUE),  # Sum practitioners
+    GP_Surgeries = n(), # GP surgeries
+    Registered_Patients = sum(NUMBER_OF_PATIENTS, na.rm = TRUE),  # Sum patients
+    Registered_Practitioners = sum(NUMBER_OF_PRACTITIONERS, na.rm = TRUE),  # Sum practitioners
     .groups = "drop"
   )
 # Merge with population data
 final_data <- gp_surgery_stats %>%
   left_join(population_postcode, by = c("Postcode_District" = "Postcode.Districts")) %>%
-  select(Postcode_District,Count,Total_Registered_Patients,Total_Registered_Practitioners,Count_GP_Surgeries) %>% 
+  select(Postcode_District,Count,Registered_Patients,Registered_Practitioners,GP_Surgeries) %>% 
   rename(Population = Count)
 
 # Save the final dataset to a CSV file
 write.csv(final_data, "postcode_districts_clean.csv", row.names = FALSE)
-
-# -----------------------------------------------------------------------------------------------
-# Postcode Area Calculation
-# Load the GP Surgeries Per Postcode data
-gp_surgeries_per_postcode <- read.csv("postcode_districts_clean.csv")  # Update file path
-
-# Extract the letter prefix from the Postcode District
-combined_data <- gp_surgeries_per_postcode %>%
-  mutate(Letter_Area = gsub("[0-9]", "", Postcode_District)) %>%  # Remove numbers from Postcode_District
-  group_by(Letter_Area) %>%
-  summarise(
-    Total_GP_Surgeries = sum(Count_GP_Surgeries, na.rm = TRUE),          # Sum surgeries
-    Total_Registered_Patients = sum(Total_Registered_Patients, na.rm = TRUE),  # Sum patients
-    Total_Registered_Practitioners = sum(Total_Registered_Practitioners, na.rm = TRUE),  # Sum practitioners
-    Population = sum(Population, na.rm = TRUE),  # Sum population
-    .groups = "drop"
-  )
-
-# Save the final dataset to a new CSV file
-write.csv(combined_data, "postcode_area_clean.csv", row.names = FALSE)
 
 # -----------------------------------------------------------------------------------------------
 # Calculating desperaty as population recorded not completly accurate
@@ -125,8 +105,8 @@ gp_surgeries_per_postcode <- read.csv("postcode_area_clean.csv")  # Update file 
 # Calculate the sum of Total Registered Patients and Total Population
 totals <- gp_surgeries_per_postcode %>%
   summarise(
-    Total_Registered_Patients = sum(Total_Registered_Patients, na.rm = TRUE),
-    Total_Population = sum(Population, na.rm = TRUE)
+    Registered_Patients = sum(Registered_Patients, na.rm = TRUE),
+    Population = sum(Population, na.rm = TRUE)
   )
 
 # View the results
@@ -135,3 +115,11 @@ print(totals)
 # -----------------------------------------------------------------------------------------------
 # Question 1: 
 # Which GP Surgery that has the highest number of patients registered?
+gp_surgery_data <- read.csv("gp_surgery_data.csv")
+
+# Find the surgery with the highest number of patients
+max_patients_surgery <- gp_surgery_data %>%
+  filter(NUMBER_OF_PATIENTS == max(NUMBER_OF_PATIENTS, na.rm = TRUE))
+
+# Print the result
+print(max_patients_surgery)
