@@ -1,8 +1,3 @@
-# This code defines the variable message and assigns it the value "Hello, World!".
-message <- "Hello, World!"
-# This code prints the value of the variable message to the console.
-print(message)
-
 # Question Framed for my data:
 
 # Question 1: Which GP Surgery that has the highest number of patients registered?
