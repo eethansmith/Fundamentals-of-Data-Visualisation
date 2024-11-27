@@ -59,7 +59,7 @@ merged_data <- merged_data %>%
   rename(NAME = Name) %>%
   select(CODE, NAME, POSTCODE, Number_of_Practitioners, NUMBER_OF_PATIENTS) %>%  # Reorder columns
   rename(NUMBER_OF_PRACTITIONERS = Number_of_Practitioners)
-  
+
 # Check structure and content of merged_data
 str(merged_data)
 head(merged_data)
@@ -67,3 +67,22 @@ summary(merged_data)
 
 # Save the final dataset to a CSV file without row names
 write.csv(merged_data, "gp_surgery_data.csv", row.names = TRUE)
+
+# Load GP Surgery data
+gp_surgery <- read.csv("gp_surgery_data.csv")  # Update with your file path
+
+# Extract postcode districts (first part of the postcode) and count surgeries
+gp_surgery_count <- gp_surgery %>%
+  mutate(Postcode_District = sub(" .*", "", POSTCODE)) %>%  # Extract first part of POSTCODE
+  group_by(Postcode_District) %>%                          # Group by postcode district
+  summarise(Count = n(), .groups = "drop")                 # Count surgeries per district
+
+# Load Population Data
+population_postcode <- read.csv("population_postcode_data.csv")  # Update with your file path
+
+# Merge with population data
+final_data <- gp_surgery_count %>%
+  left_join(population_postcode, by = c("Postcode_District" = "Postcode.Districts"))
+
+# Save the final dataset to a CSV file
+write.csv(final_data, "gp_surgeries_per_postcode.csv", row.names = FALSE)
