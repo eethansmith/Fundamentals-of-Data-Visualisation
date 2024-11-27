@@ -122,4 +122,55 @@ max_patients_surgery <- gp_surgery_data %>%
   filter(NUMBER_OF_PATIENTS == max(NUMBER_OF_PATIENTS, na.rm = TRUE))
 
 # Print the result
+print("GP Surgery with the highest number of patients:")
 print(max_patients_surgery)
+#--------------------------------------------------------------------------------
+# Question 2:
+# What is the area/district with the highest number of registered GP Surgeries?
+postcode_area_data <- read.csv("postcode_area_clean.csv")
+postcode_district_data <- read.csv("postcode_districts_clean.csv")
+max_surgery_area <- postcode_area_data %>%
+  filter(GP_Surgeries == max(GP_Surgeries, na.rm = TRUE))
+print(max_surgery_area)
+max_surgery_district <- postcode_district_data %>%
+  filter(GP_Surgeries == max(GP_Surgeries, na.rm = TRUE))
+print(max_surgery_district)
+#--------------------------------------------------------------------------------
+# Question 3:
+# What sector has the best ratio of GPs to population?
+# Load the dataset with sector statistics
+postcode_area_data <- read.csv("postcode_area_clean.csv")  # Update file path
+
+# Calculate the GP to population ratio
+best_ratio_sector <- postcode_area_data %>%
+  mutate(GP_to_Patient_Ratio = Registered_Practitioners / Registered_Patients) %>%  # Calculate ratio
+  filter(GP_to_Patient_Ratio == max(GP_to_Patient_Ratio, na.rm = TRUE))  # Find max ratio
+
+# Print the sector with the best GP to population ratio
+print("Sector with the best ratio of GPs to Patients:")
+print(best_ratio_sector)
+
+
+# Calculate the GP to population ratio
+best_ratio_sector <- postcode_area_data %>%
+  mutate(GP_to_Population_Ratio = Registered_Practitioners / Population) %>%  # Calculate ratio
+  filter(GP_to_Population_Ratio == max(GP_to_Population_Ratio, na.rm = TRUE))  # Find max ratio
+
+# Print the sector with the best GP to population ratio
+print("Sector with the best ratio of GPs to population:")
+print(best_ratio_sector)
+#--------------------------------------------------------------------------------
+# Question 4:
+# How many surgeries have 30 or more GPs?
+# Load the GP surgery data
+gp_surgery_data <- read.csv("gp_surgery_data.csv")
+
+# Filter surgeries with 15 or more practitioners
+surgeries_with_30_plus_gps <- gp_surgery_data %>%
+  filter(NUMBER_OF_PRACTITIONERS >= 30)
+
+# Count the number of such surgeries
+count_of_surgeries <- nrow(surgeries_with_30_plus_gps)
+
+# Print the result
+print(paste("Number of surgeries with 30 or more GPs:", count_of_surgeries))
