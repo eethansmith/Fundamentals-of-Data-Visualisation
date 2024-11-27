@@ -41,6 +41,7 @@ str(clean_data)      # Check column types
 head(clean_data)     # View the first few rows
 summary(clean_data)  # Get summary statistics
 
+# Merge datasets on the CODE column
 merged_data <- clean_data %>%
   left_join(gp_surgery_clean, by = c("CODE" = "Organisation Code"))
 
