@@ -62,7 +62,7 @@ head(merged_data)
 summary(merged_data)
 
 # Save the final dataset to a CSV file without row names
-write.csv(merged_data, "gp_surgery_data.csv", row.names = TRUE)
+write.csv(merged_data, "gp_surgery_data.csv", row.names = FALSE)
 
 # -----------------------------------------------------------------------------------------------
 # POPULATION DATA
@@ -94,7 +94,7 @@ final_data <- gp_surgery_stats %>%
   rename(Population = Count)
 
 # Save the final dataset to a CSV file
-write.csv(final_data, "postcode_districts_clean.csv", row.names = TRUE)
+write.csv(final_data, "postcode_districts_clean.csv", row.names = FALSE)
 
 # -----------------------------------------------------------------------------------------------
 # Postcode Area Calculation
