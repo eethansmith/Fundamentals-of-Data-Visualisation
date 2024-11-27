@@ -23,19 +23,10 @@ population_postcode <- read.csv("DataSources/uk-population-postcode-21.csv")
 # https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/december-2021#resources
 patients_registered <- read.csv("DataSources/gp-surgery-patient-count-21.csv")
 
-# GP Practitioners data- 
+# GP Practitioners data-
 # https://digital.nhs.uk/services/organisation-data-service/export-data-files/csv-downloads/gp-and-gp-practice-related-data
 gp_practitioner <- read.csv("DataSources/gp-practitioner-data-21.csv")
 
 # GP Surgery data-
 # https://digital.nhs.uk/services/organisation-data-service/export-data-files/csv-downloads/gp-and-gp-practice-related-data
-gp_surgery <- read.csv("DataSources/gp-surgery-data-24.csv")
-
-# View the first few rows of the population_postcode dataset
-head(population_postcode)
-
-# Check Structure of the population_postcode dataset
-str(population_postcode)
-
-# Summary statistics
-summary(population_postcode)
+gp_surgery <- read.csv("DataSources/gp-surgery-data-21.csv")
