@@ -11,7 +11,7 @@ print(message)
 
 # Question 3: What sector has the best ratio of GPs to population?
 
-# Question 4: How many surgeries have 10 or more GPs?
+# Question 4: How many surgeries have 30 or more GPs?
 
 library(dplyr)
 
