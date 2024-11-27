@@ -71,15 +71,22 @@ population_postcode <- read.csv("DataSources/uk-population-postcode-21.csv")
 # Load GP Surgery data
 gp_surgery <- read.csv("gp_surgery_data.csv")  # Update with your file path
 
-# Extract postcode districts (first part of the postcode) and count surgeries
-gp_surgery_count <- gp_surgery %>%
-  mutate(Postcode_District = sub(" .*", "", POSTCODE)) %>%  # Extract first part of POSTCODE
-  group_by(Postcode_District) %>%                          # Group by postcode district
-  summarise(Count = n(), .groups = "drop")                 # Count surgeries per district
+# Extract postcode districts (first part of the postcode)
+gp_surgery <- gp_surgery %>%
+  mutate(Postcode_District = sub(" .*", "", POSTCODE))  # Extract first part of POSTCODE
 
+# Group by postcode district to calculate statistics
+gp_surgery_stats <- gp_surgery %>%
+  group_by(Postcode_District) %>%
+  summarise(
+    Count_GP_Surgeries = n(), # Count GP surgeries
+    Total_Registered_Patients = sum(NUMBER_OF_PATIENTS, na.rm = TRUE),  # Sum patients
+    Total_Registered_Practitioners = sum(NUMBER_OF_PRACTITIONERS, na.rm = TRUE),  # Sum practitioners
+    .groups = "drop"
+  )
 # Merge with population data
-final_data <- gp_surgery_count %>%
+final_data <- gp_surgery_stats %>%
   left_join(population_postcode, by = c("Postcode_District" = "Postcode.Districts"))
 
 # Save the final dataset to a CSV file
-write.csv(final_data, "gp_surgeries_per_postcode.csv", row.names = FALSE)
+write.csv(final_data, "gp_surgeries_per_postcode_with_stats.csv", row.names = TRUE)
