@@ -13,17 +13,25 @@ print(message)
 
 # Question 4: How many surgeries have 10 or more GPs?
 
+library(dplyr)
+
 # Data Sources:
 
 # UK population per postcode 2021-
 #https://www.beta.ons.gov.uk/aboutus/transparencyandgovernance/freedomofinformationfoi/postcodelevelpopulationdatafromcensus2021
 population_postcode <- read.csv("DataSources/uk-population-postcode-21.csv")
 
+# GP Surgery data-
+# https://digital.nhs.uk/services/organisation-data-service/export-data-files/csv-downloads/gp-and-gp-practice-related-data
+gp_surgery <- read.csv("DataSources/gp-surgery-data-21.csv")
+# Extracting the columns "Organisation_Code" and "Name" from the dataset
+gp_surgery_clean <- gp_surgery %>%
+  select(Organisation_Code = CODE, Name)
+
 # Patient count at each GP Surgery in the UK December 2021-
 # https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/december-2021#resources
 patients_registered <- read.csv("DataSources/gp-surgery-patient-count-21.csv")
 # Clean data taking global"code", postcode and total patients registered
-library(dplyr)
 clean_data <- patients_registered %>%
   select(CODE, POSTCODE, NUMBER_OF_PATIENTS)
 
@@ -39,7 +47,3 @@ write.csv(clean_data, "clean_gp_surgery_data.csv", row.names = TRUE)
 # GP Practitioners data-
 # https://digital.nhs.uk/services/organisation-data-service/export-data-files/csv-downloads/gp-and-gp-practice-related-data
 gp_practitioner <- read.csv("DataSources/gp-practitioner-data-21.csv")
-
-# GP Surgery data-
-# https://digital.nhs.uk/services/organisation-data-service/export-data-files/csv-downloads/gp-and-gp-practice-related-data
-gp_surgery <- read.csv("DataSources/gp-surgery-data-21.csv")
