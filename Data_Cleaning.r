@@ -90,6 +90,27 @@ final_data <- gp_surgery_stats %>%
 
 # Save the final dataset to a CSV file
 write.csv(final_data, "postcode_districts_clean.csv", row.names = FALSE)
+#--------------------------------------------------------------------------------
+
+# Load the main dataset
+postcode_data <- read.csv("postcode_area_clean.csv", stringsAsFactors = FALSE)
+
+# Load the reference dataset containing full area names
+reference_data <- read.csv("DataSources/postcode_areas.csv", stringsAsFactors = FALSE)  # Update file path
+
+# Join the datasets to match Postcode_Area with Primary_Area
+# Ensure the column names match between the two datasets
+postcode_data <- postcode_data %>%
+  left_join(reference_data, by = c("Postcode_Area" = "Postcode_Area")) %>%
+  mutate(Area_Name = Primary_Area)  # Add the Area_Name column
+
+# Remove unnecessary columns if needed (e.g., Primary_Area, Extra_Info, Details from reference_data)
+postcode_data <- postcode_data %>% select(-Primary_Area, -Extra_Info, -Details)
+
+# Save the updated dataframe to a new CSV
+write.csv(postcode_data, "postcode_area_with_names.csv", row.names = FALSE)
+
+print("Updated dataset saved as 'postcode_area_with_names.csv'.")
 
 # -----------------------------------------------------------------------------------------------
 # Calculating desperaty as population recorded not completly accurate
