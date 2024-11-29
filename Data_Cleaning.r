@@ -111,6 +111,10 @@ postcode_data <- postcode_data %>% select(-Primary_Area, -Extra_Info, -Details)
 write.csv(postcode_data, "postcode_area_with_names.csv", row.names = FALSE)
 
 print("Updated dataset saved as 'postcode_area_with_names.csv'.")
+#--------------------------------------------------------------------------------
+
+
+
 
 # -----------------------------------------------------------------------------------------------
 # Calculating desperaty as population recorded not completly accurate
