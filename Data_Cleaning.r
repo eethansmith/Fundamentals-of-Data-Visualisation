@@ -12,6 +12,8 @@ library(dplyr)
 
 # Data Sources:
 
+# UK Area GeoJson: https://github.com/roblascelles/uk-postcode-map/blob/master/data/uk-postcode-area.json
+
 # GP Surgery data-
 # https://digital.nhs.uk/services/organisation-data-service/export-data-files/csv-downloads/gp-and-gp-practice-related-data
 # Load GP Surgery data
